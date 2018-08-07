@@ -44,7 +44,7 @@ class SendEnvelope < ExampleBase
   end
 
   def readContent(filename)
-    File.read(File.join('data', filename))
+    File.binread(File.join('data', filename))
   end
 
   def createEnvelope
@@ -140,7 +140,7 @@ class SendEnvelope < ExampleBase
 
     # can be different from actual file name
     document.name = name
-    # Source data format.Signed docs are always pdf.
+    # Source data format. Signed docs are always pdf.
     document.file_extension = file_extension
     # a label used to reference the doc
     document.document_id = id

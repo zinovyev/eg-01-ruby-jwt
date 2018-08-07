@@ -24,6 +24,10 @@ class Main
     print "\nResults: \n"
     puts envelopes_list.to_yaml
     print("\nDone.\n")
+
+  rescue DocuSign_eSign::ApiError => err
+    print "DocuSign SDK Error!\n   code: #{err.code}\n   message: #{err.response_body}\n\n"
+
   end
 end
 
