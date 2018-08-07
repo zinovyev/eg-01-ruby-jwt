@@ -1,47 +1,46 @@
 require './example_base'
 require './ds_config'
 require 'base64'
-# require 'ds_helper'
 
 class SendEnvelope < ExampleBase
 
   @@ENVELOPE_1_DOCUMENT_1 = %(
-      <!DOCTYPE html>
-            <html>
-                <head>
-                  <meta charset="UTF-8">
-                </head>
-                <body style="font-family:sans-serif;margin-left:2em;">
-                <h1 style="font-family: 'Trebuchet MS', Helvetica, sans-serif;"
-                     color: darkblue;margin-bottom: 0;">World Wide Corp</h1>
-                <h2 style="font-family: 'Trebuchet MS', Helvetica, sans-serif;
-                     margin-top: 0px;margin-bottom: 3.5em;font-size: 1em;
-                     color: darkblue;">Order Processing Division</h2>
-              <h4>Ordered by #{DSConfig.signer_name}</h4>
-                <p style="margin-top:0em; margin-bottom:0em;">Email:  #{DSConfig.signer_email} </p>
-                <p style="margin-top:0em; margin-bottom:0em;">Copy to: #{DSConfig.cc_name} , #{DSConfig.cc_email} </p>
-                <p style="margin-top:3em;">
-               Candy bonbon pastry jujubes lollipop wafer biscuit biscuit. Topping brownie sesame snaps
-              sweet roll pie. Croissant danish biscuit soufflé caramels jujubes jelly. Dragée danish caramels lemon
-              drops dragée. Gummi bears cupcake biscuit tiramisu sugar plum pastry.
-              Dragée gummies applicake pudding liquorice. Donut jujubes oat cake jelly-o. Dessert bear claw chocolate
-              cake gummies lollipop sugar plum ice cream gummies cheesecake.
-                </p>
-                <!-- Note the anchor tag for the signature field is in white. -->
-                <h3 style="margin-top:3em;">Agreed: <span style="color:white;">**signature_1**</span></h3>
-                </body>
-             </html>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+      </head>
+      <body style="font-family:sans-serif;margin-left:2em;">
+        <h1 style="font-family: 'Trebuchet MS', Helvetica, sans-serif;"
+              color: darkblue;margin-bottom: 0;">World Wide Corp</h1>
+        <h2 style="font-family: 'Trebuchet MS', Helvetica, sans-serif;
+              margin-top: 0px;margin-bottom: 3.5em;font-size: 1em;
+              color: darkblue;">Order Processing Division</h2>
+        <h4>Ordered by #{DSConfig.signer_name}</h4>
+        <p style="margin-top:0em; margin-bottom:0em;">Email:  #{DSConfig.signer_email} </p>
+        <p style="margin-top:0em; margin-bottom:0em;">Copy to: #{DSConfig.cc_name} , #{DSConfig.cc_email} </p>
+        <p style="margin-top:3em;">
+          Candy bonbon pastry jujubes lollipop wafer biscuit biscuit. Topping brownie sesame snaps
+          sweet roll pie. Croissant danish biscuit soufflé caramels jujubes jelly. Dragée danish caramels lemon
+          drops dragée. Gummi bears cupcake biscuit tiramisu sugar plum pastry.
+          Dragée gummies applicake pudding liquorice. Donut jujubes oat cake jelly-o. Dessert bear claw chocolate
+          cake gummies lollipop sugar plum ice cream gummies cheesecake.
+        </p>
+        <!-- Note the anchor tag for the signature field is in white. -->
+        <h3 style="margin-top:3em;">Agreed: <span style="color:white;">**signature_1**</span></h3>
+      </body>
+    </html>
   )
   @@DOC_2_DOCX = 'World_Wide_Corp_Battle_Plan_Trafalgar.docx'
   @@DOC_3_PDF = 'World_Wide_Corp_lorem.pdf'
 
 
   def sendEnvelope
-      check_token
-      envelope = createEnvelope
-      envelope_api = DocuSign_eSign::EnvelopesApi.new(@@api_client)
-      result = envelope_api.create_envelope(@@account_id, envelope)
-      result
+    check_token
+    envelope = createEnvelope
+    envelope_api = DocuSign_eSign::EnvelopesApi.new(@@api_client)
+    result = envelope_api.create_envelope(@@account_id, envelope)
+    result
   end
 
   def readContent(filename)
@@ -49,7 +48,6 @@ class SendEnvelope < ExampleBase
   end
 
   def createEnvelope
-    # code here
     envelope_definition = DocuSign_eSign::EnvelopeDefinition.new
     envelope_definition.email_subject = "Please sign this document sent from Ruby SDK"
 

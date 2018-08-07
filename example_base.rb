@@ -1,8 +1,8 @@
 require './ds_config'
 
 class ExampleBase
-  @@TOKEN_REPLACEMENT_IN_MILLISECONDS = 10 * 60 * 1000
-  @@TOKEN_EXPIRATION_IN_SECONDS = 3600
+  @@TOKEN_REPLACEMENT_IN_SECONDS = 10 * 60 # 10 minutes 
+  @@TOKEN_EXPIRATION_IN_SECONDS = 60 * 60 # 1 hour 
 
   @@account = nil
   @@account_id = nil
@@ -21,9 +21,15 @@ class ExampleBase
   end
 
   def check_token
-    @now = Time.now.to_f * 1000
-    if @@token == nil and (@now + @@TOKEN_REPLACEMENT_IN_MILLISECONDS) > @@expireIn
-        self.update_token
+    @now = Time.now.to_f # seconds since epoch
+    # Check that the token should be good
+    if @@token == nil or ((@now + @@TOKEN_REPLACEMENT_IN_SECONDS) > @@expireIn)
+      if @@token == nil
+        puts "\nStarting up: fetching token"
+      else
+        puts "\nToken is about to expire: fetching token"
+      end
+      self.update_token
     end
   end
 
@@ -41,16 +47,18 @@ class ExampleBase
 
     @@api_client.config.host = @@account[:base_uri]
     @@account_id = @@account[:account_id]
-    # token[0..6] = ''
     @@token = token
+    @@expireIn = Time.now.to_f + @@TOKEN_EXPIRATION_IN_SECONDS # would be better to receive the expires
+       # info from DocuSign but it is not yet returned by the SDK.
+    puts "Received token"
   end
 
   def get_account_info
     # code here
-    response = @@api_client.call_api("GET","https://account-d.docusign.com/oauth/userinfo", {return_type:"Object"})
+    response = @@api_client.call_api("GET", "https://#{DSConfig.aud}/oauth/userinfo", {return_type:"Object"})
 
     if response.length > 1 and !(200..299).include?response[1]
-      raise 'can not get user info: %d' % response[1]
+      raise 'Could not call get userInfo from DocuSign: %d' % response[1]
     end
 
     accounts = response[0][:accounts]
@@ -62,6 +70,7 @@ class ExampleBase
           return acct
         end
       end
+      raise "The user does not have access to account #{target}"
     end
 
     accounts.each do |acct|
@@ -69,8 +78,5 @@ class ExampleBase
         return acct
       end
     end
-
-
   end
-
 end
