@@ -69,7 +69,7 @@ Your DocuSign Integration Key must be configured for a JWT OAuth authentication 
 The JWT will impersonate a user within your account. The user can be
 an individual or a user representing a group such as "HR".
 
-Your application will need the guid assigned to the user.
+The example needs the guid assigned to the user.
 The guid value for each user in your account is available from
 the Administration tool in the **Users** section.
 
