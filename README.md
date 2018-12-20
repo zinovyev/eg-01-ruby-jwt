@@ -1,4 +1,4 @@
-# Example 1: Ruby Service Integration
+# Ruby JWT Service Integration Code Example
 
 Repository: [eg-01-ruby-jwt](https://github.com/docusign/eg-01-ruby-jwt)
 
@@ -23,7 +23,7 @@ a user in the account.
 
 This launcher example includes two examples:
 1. Send an html, Word, and PDF file in an envelope to be signed.
-1. List the envelopes in the account that are less than 30 days old.
+1. List the envelopes in the account if their status has changed in the last 30 days.
 
 ## Installation
 
@@ -34,33 +34,23 @@ Download or clone this repository. Then:
 ````
 cd eg-01-ruby-jwt
 bundler install
-
-# Create the config file
-cp ds_config_EXAMPLE.rb ds_config.rb
 ````
 
-### Configure the example's settings
+Next step:
+
+## Configuring the example's settings
 
 Update two files to configure the example:
 
-1. Edit the `ds_config.rb` file in the root directory.
-   (After creating it from the `ds_config_EXAMPLE.rb` file.)
-   More information for the configuration settings is below.
-1. Create the file `docusign_private_key.txt` in the root directory.
-   Add the Integration Key's private key to the file in PEM format.
-   When you download the private key from the DocuSign Admin Tool, it
-   is already in the right format.
+### Edit the `ds_config.rb` file in the root directory.
 
-`ds_config.rb` and `docusign_private_key.txt` are in the .gitignore file so your
-private information will not be added to your repository.
-
-#### Creating the Integration Key
+#### Creating the Integration Key (the client id)
 Your DocuSign Integration Key must be configured for a JWT OAuth authentication flow:
 * Create a public/private key pair for the key. Store the private key
   in a secure location. You can use a file or a key vault.
 * The example requires the private key. Store the private key in the
   file `docusign_private_key.txt`. A future version of the SDK will
-  remove the need to store the key in a file.
+  enable the key to be supplied as a string to the SDK.
 * If you will be using individual permission grants, you must create a
   `Redirect URI` for the key. Any URL can be used. By default, this
   example uses `https://www.docusign.com`
@@ -76,6 +66,13 @@ the Administration tool in the **Users** section.
 To see a user's guid, **Edit** the user's information.
 On the **Edit User** screen, the guid for the user is shown as
 the `API Username`.
+   
+### Edit the file `docusign_private_key.txt` in the root directory.
+   Add the Integration Key's private key to the file in PEM format.
+   When you download the private key from the DocuSign Admin Tool, it
+   is already in the right format.
+
+   Include the lines BEGIN/END RSA PRIVATE KEY
 
 ## Run the examples
 
