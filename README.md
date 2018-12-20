@@ -1,4 +1,4 @@
-# Example 1: Ruby Service Integration
+# Ruby JWT Service Integration Code Example
 
 Repository: [eg-01-ruby-jwt](https://github.com/docusign/eg-01-ruby-jwt)
 
