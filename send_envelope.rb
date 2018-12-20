@@ -36,11 +36,13 @@ class SendEnvelope < ExampleBase
 
 
   def sendEnvelope
+    # Check token will fetch an access_token if needbe.
     check_token
+
+    # Create the envelope request
     envelope = DocuSign_eSign::EnvelopeDefinition.new
     envelope.email_subject = "Please sign this document sent from Ruby SDK"
 
-    # doc1 = create_document_from_template("1", "Order acknowledgement", "html", @@ENVELOPE_1_DOCUMENT_1)
     doc1 = DocuSign_eSign::Document.new
     doc1.document_base64 = Base64.encode64(@@ENVELOPE_1_DOCUMENT_1)
     doc1.name = "Order acknowledgement"
@@ -48,11 +50,11 @@ class SendEnvelope < ExampleBase
     doc1.document_id = "1"
 
     doc2 = DocuSign_eSign::Document.new
-
     doc2.document_base64 = Base64.encode64(File.binread(File.join('data', @@DOC_2_DOCX)))
     doc2.name = "Battle Plan"
     doc2.file_extension = "docx"
     doc2.document_id = "2"
+
 
     doc3 = DocuSign_eSign::Document.new
     doc3.document_base64 = Base64.encode64(File.binread(File.join('data', @@DOC_3_PDF)))
@@ -63,7 +65,6 @@ class SendEnvelope < ExampleBase
     # The order in the docs array determines the order in the envelope
     envelope.documents = [doc1, doc2, doc3]
     # create a signer recipient to sign the document, identified by name and email
-    # We're setting the parameters via the object creation
     signer1 = DocuSign_eSign::Signer.new
     signer1.email = DSConfig.signer_email
     signer1.name = DSConfig.signer_name
@@ -98,21 +99,25 @@ class SendEnvelope < ExampleBase
     sign_here2.anchor_units = "pixels"
     sign_here2.anchor_x_offset = "20"
     sign_here2.anchor_y_offset = "10"
+
     # Tabs are set per recipient / signer
     tabs = DocuSign_eSign::Tabs.new
     tabs.sign_here_tabs = [sign_here1, sign_here2]
     signer1.tabs = tabs
+
     # Add the recipients to the envelope object
     recipients = DocuSign_eSign::Recipients.new
     recipients.signers = [signer1]
     recipients.carbon_copies = [cc1]
     envelope.recipients = recipients
+
     # Request that the envelope be sent by setting |status| to "sent".
     # To request that the envelope be created as a draft, set to "created"
     envelope.status = "sent"
+
+    # Call the API method
     envelope_api = DocuSign_eSign::EnvelopesApi.new(@@api_client)
     result = envelope_api.create_envelope(@@account_id, envelope)
     result
   end
-
 end
