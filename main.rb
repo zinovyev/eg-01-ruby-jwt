@@ -26,6 +26,7 @@ class Main
     print("\nDone.\n")
 
   rescue DocuSign_eSign::ApiError => err
+    print err.to_yaml
     print "DocuSign SDK Error!\n   code: #{err.code}\n   message: #{err.response_body}\n\n"
 
   end

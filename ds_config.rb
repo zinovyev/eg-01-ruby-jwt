@@ -2,18 +2,13 @@ class DSConfig
 
   # client_id is the same as Integrator Key
   @client_id = "{CLIENT_ID}"
-  # In the future, the SDK will accept the private key as a string.
-  # Currently, the SDK wants a filename where the file includes the 
-  # private key. For this example, store the private key in
-  # file |docusign_private_key.txt|
-
   # The sender's email can't be used here.
   # This is the guid for the impersonated user (the sender).
-  @impersonated_user_guid = "{IMPERSONATED_GUID}"
-  @signer_email ="{USER_EMAIL}"
-  @signer_name ="{USER_FULLNAME}"
+  @impersonated_user_guid = "{IMPERSONATED_USER_ID}"
+  @signer_email ="{SIGNER_EMAIL}"
+  @signer_name ="{SIGNER_NAME}"
   @cc_email = "{CC_EMAIL}"
-  @cc_name = "{CC_FULLNAME}"
+  @cc_name = "{CC_NAME}"
   
   # Use account.docusign.com for production
   @aud ="account-d.docusign.com"
@@ -30,5 +25,6 @@ class DSConfig
     attr_accessor :signer_name
     attr_accessor :cc_email
     attr_accessor :cc_name
+
   end
 end
