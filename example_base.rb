@@ -64,10 +64,6 @@ class ExampleBase
       raise "The user does not have access to account #{target}"
     end
 
-    accounts.each do |acct|
-      if acct.is_default
-        return acct
-      end
-    end
+    accounts.find { |acct| acct.is_default == 'true' }
   end
 end
